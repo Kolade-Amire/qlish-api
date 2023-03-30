@@ -1,0 +1,28 @@
+package com.qlish.qlish
+
+import com.mongodb.client.MongoClients
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
+import org.springframework.boot.web.client.RestTemplateBuilder
+import org.springframework.context.annotation.Bean
+import org.springframework.data.mongodb.core.MongoTemplate
+import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory
+import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.client.RestTemplate
+
+@SpringBootApplication
+@RestController
+class QlishApplication{
+
+	@Bean
+	fun mongoTemplate(): MongoTemplate {
+		val mongoClient = MongoClients.create("mongodb+srv://stephamire:ni1jyFvkWQ3pKW6j@qlish.zreihi6.mongodb.net/?retryWrites=true&w=majority")
+		val databaseFactory = SimpleMongoClientDatabaseFactory(mongoClient, "Questions")
+		return MongoTemplate(databaseFactory)
+	}
+}
+
+fun main(args: Array<String>) {
+	runApplication<QlishApplication>(*args)
+
+}
