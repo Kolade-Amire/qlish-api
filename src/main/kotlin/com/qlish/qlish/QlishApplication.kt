@@ -16,7 +16,7 @@ class QlishApplication{
 
 	@Bean
 	fun mongoTemplate(): MongoTemplate {
-		val mongoClient = MongoClients.create("mongodb+srv://stephamire:ni1jyFvkWQ3pKW6j@qlish.zreihi6.mongodb.net/?retryWrites=true&w=majority")
+		val mongoClient = MongoClients.create("mongodb+srv://stephamire:<password>j@qlish.zreihi6.mongodb.net/?retryWrites=true&w=majority")
 		val databaseFactory = SimpleMongoClientDatabaseFactory(mongoClient, "Questions")
 		return MongoTemplate(databaseFactory)
 	}
