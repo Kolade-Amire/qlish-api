@@ -15,15 +15,18 @@ repositories {
 	mavenCentral()
 }
 
+
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
 	compileOnly ("org.jetbrains.kotlin:kotlin-reflect:1.1.51")
 	compileOnly("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("com.github.fakemongo:fongo:2.1.1")
+	testImplementation("io.mockk:mockk:1.13.4")
+	testImplementation("com.github.fakemongo:fongo:2.1.0")
 }
 
 tasks.withType<KotlinCompile> {
