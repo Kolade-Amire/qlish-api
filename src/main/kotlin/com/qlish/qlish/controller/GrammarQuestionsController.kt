@@ -24,17 +24,21 @@ class GrammarQuestionsController(@Autowired private val service: GrammarQuestion
 
 
 
-    @GetMapping("/{questionLevel}/15")
+    @GetMapping("/question-level/{questionLevel}/{questionCount}")
     @ResponseStatus(HttpStatus.OK)
-    fun getRandom15QuestionsByQuestionClassAndLevel(@PathVariable questionLevel:String):ResponseEntity<Collection<Question>> = service.retrieve15QuestionsByLevel(questionLevel)
+    fun getRandomGrammarQuestionsByQuestionLevel(@PathVariable questionLevel:String, @PathVariable questionCount: Long
+    ):ResponseEntity<Collection<Question>> = service.retrieveGrammarQuestionsByLevel(questionLevel, questionCount)
+
+    @GetMapping("/question-topic/{questionTopic}/{questionCount}")
+    @ResponseStatus(HttpStatus.OK)
+    fun getRandomGrammarQuestionsByQuestionTopic(@PathVariable questionTopic:String, @PathVariable questionCount: Long
+    ):ResponseEntity<Collection<Question>> = service.retrieveGrammarQuestionsByTopic(questionTopic, questionCount)
 
 
-    @GetMapping("/{questionLevel}/25")
+    @GetMapping("/{questionLevel}/{questionTopic}/{questionCount}")
     @ResponseStatus(HttpStatus.OK)
-    fun getRandom25QuestionsByQuestionClassAndLevel(@PathVariable questionLevel:String):ResponseEntity<Collection<Question>> = service.retrieve25QuestionsByLevel(questionLevel)
+    fun getRandomGrammarQuestionsByQuestionLevelAndTopic(@PathVariable questionLevel:String,@PathVariable questionTopic: String, @PathVariable questionCount: Long
+    ):ResponseEntity<Collection<Question>> = service.retrieveGrammarQuestionsByLevelAndTopic(questionLevel, questionTopic, questionCount)
 
-    @GetMapping("/{questionLevel}/35")
-    @ResponseStatus(HttpStatus.OK)
-    fun getRandom35QuestionsByQuestionClassAndLevel(@PathVariable questionLevel:String):ResponseEntity<Collection<Question>> = service.retrieve35QuestionsByLevel(questionLevel)
 
 }

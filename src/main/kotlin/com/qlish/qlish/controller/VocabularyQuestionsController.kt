@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("api/questions/vocabulary")
+@RequestMapping("/api/questions/vocabulary")
 class VocabularyQuestionsController(@Autowired private val service: VocabularyQuestionsService) {
 
     @ExceptionHandler(NoSuchElementException::class)
@@ -23,18 +23,22 @@ class VocabularyQuestionsController(@Autowired private val service: VocabularyQu
     fun getAllVocabularyQuestions(): ResponseEntity<Collection<Question>> = service.retrieveAllVocabularyQuestions()
 
 
-    @GetMapping("/{questionLevel}/15")
+    @GetMapping("/question-level/{questionLevel}/{questionCount}")
     @ResponseStatus(HttpStatus.OK)
-    fun getRandom15QuestionsByQuestionLevel(@PathVariable questionLevel:String):ResponseEntity<Collection<Question>> = service.retrieve15QuestionsBLevel(questionLevel)
+    fun getRandomVocabularyQuestionsByQuestionLevel(@PathVariable questionLevel:String, @PathVariable questionCount: Long
+    ):ResponseEntity<Collection<Question>> = service.retrieveVocabularyQuestionsByLevel(questionLevel, questionCount)
+
+    @GetMapping("/question-topic/{questionTopic}/{questionCount}")
+    @ResponseStatus(HttpStatus.OK)
+    fun getRandomVocabularyQuestionsByQuestionTopic(@PathVariable questionTopic:String, @PathVariable questionCount: Long
+    ):ResponseEntity<Collection<Question>> = service.retrieveVocabularyQuestionsByTopic(questionTopic, questionCount)
 
 
-    @GetMapping("/{questionLevel}/25")
+    @GetMapping("/{questionLevel}/{questionTopic}/{questionCount}")
     @ResponseStatus(HttpStatus.OK)
-    fun getRandom25QuestionsByQuestionLevel(@PathVariable questionLevel:String):ResponseEntity<Collection<Question>> = service.retrieve25QuestionsByLevel(questionLevel)
+    fun getRandomVocabularyQuestionsByQuestionLevelAndTopic(@PathVariable questionLevel:String,@PathVariable questionTopic: String, @PathVariable questionCount: Long
+    ):ResponseEntity<Collection<Question>> = service.retrieveVocabularyQuestionsByLevelAndTopic(questionLevel, questionTopic, questionCount)
 
-    @GetMapping("/{questionLevel}/35")
-    @ResponseStatus(HttpStatus.OK)
-    fun getRandom35QuestionsByQuestionLevel(@PathVariable questionLevel:String):ResponseEntity<Collection<Question>> = service.retrieve35QuestionsByLevel(questionLevel)
 
 
 

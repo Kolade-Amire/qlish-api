@@ -17,36 +17,61 @@ class VocabularyQuestionsRepository (@Autowired private val mongoTemplate: Mongo
     }
 
 
-    override fun getRandom15QuestionsByQuestionLevel(questionLevel: String): ResponseEntity<Collection<Question>> {
-        val aggregation = Aggregation.newAggregation(
-            Aggregation.match(Criteria.where("questionLevel").`is`(questionLevel)),
-            Aggregation.sample(15),
-            Aggregation.limit(15)
-        )
-        val questions = mongoTemplate.aggregate(aggregation,"vocabulary", Question::class.java).mappedResults
-        return  ResponseEntity.ok(questions)    }
-
-
-    override fun getRandom25QuestionsByQuestionLevel(
-        questionLevel: String
+    override fun getRandomQuestionsByQuestionLevel(
+        questionLevel: String,
+        questionCount: Long
     ): ResponseEntity<Collection<Question>> {
-        val aggregation = Aggregation.newAggregation(
-            Aggregation.match(Criteria.where("questionLevel").`is`(questionLevel)),
-            Aggregation.sample(25),
-            Aggregation.limit(25)
-        )
+        lateinit var aggregation: Aggregation
+        if (questionCount.toInt() == 15 || questionCount.toInt() == 25 || questionCount.toInt() == 35 || questionCount.toInt() == 50){
+             aggregation = Aggregation.newAggregation(
+                Aggregation.match(Criteria.where("questionLevel").`is`(questionLevel)),
+                Aggregation.sample(questionCount),
+                Aggregation.limit(questionCount)
+            )
+        }else{
+            throw IllegalArgumentException("question count is invalid! accepted parameters are 15, 25, 35 or 50.")
+        }
+
         val questions = mongoTemplate.aggregate(aggregation,"vocabulary", Question::class.java).mappedResults
         return  ResponseEntity.ok(questions)
     }
 
-    override fun getRandom35QuestionsByQuestionLevel(
-        questionLevel: String
+    override fun getRandomQuestionsByQuestionTopic(
+        questionTopic: String,
+        questionCount: Long
     ): ResponseEntity<Collection<Question>> {
-        val aggregation = Aggregation.newAggregation(
-            Aggregation.match(Criteria.where("questionLevel").`is`(questionLevel)),
-            Aggregation.sample(35),
-            Aggregation.limit(35)
-        )
+        lateinit var aggregation: Aggregation
+        if (questionCount.toInt() == 15 || questionCount.toInt() == 25 || questionCount.toInt() == 35 || questionCount.toInt() == 50){
+            aggregation = Aggregation.newAggregation(
+                Aggregation.match(Criteria.where("questionTopic").`is`(questionTopic)),
+                Aggregation.sample(questionCount),
+                Aggregation.limit(questionCount)
+            )
+        }else{
+            throw IllegalArgumentException("question count is invalid! accepted parameters are 15, 25, 35 or 50.")
+        }
+
+        val questions = mongoTemplate.aggregate(aggregation,"vocabulary", Question::class.java).mappedResults
+        return  ResponseEntity.ok(questions)
+    }
+
+    override fun getRandomQuestionsByQuestionLevelAndTopic(
+        questionLevel: String,
+        questionTopic: String,
+        questionCount: Long
+    ): ResponseEntity<Collection<Question>> {
+        lateinit var aggregation: Aggregation
+        if (questionCount.toInt() == 15 || questionCount.toInt() == 25 || questionCount.toInt() == 35 || questionCount.toInt() == 50){
+            aggregation = Aggregation.newAggregation(
+                Aggregation.match(Criteria.where("questionLevel").`is`(questionLevel)),
+                Aggregation.match(Criteria.where("questionTopic").`is`(questionTopic)),
+                Aggregation.sample(questionCount),
+                Aggregation.limit(questionCount)
+            )
+        }else{
+            throw IllegalArgumentException("question count is invalid! accepted parameters are 15, 25, 35 or 50.")
+        }
+
         val questions = mongoTemplate.aggregate(aggregation,"vocabulary", Question::class.java).mappedResults
         return  ResponseEntity.ok(questions)
     }

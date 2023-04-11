@@ -12,9 +12,9 @@ class GrammarQuestionsService (@Qualifier("grammar") @Autowired private val data
 
     fun retrieveAllGrammarQuestions(): ResponseEntity<Collection<Question>> = datasource.getAllQuestions()
 
-    fun retrieve15QuestionsByLevel(questionLevel: String): ResponseEntity<Collection<Question>> = datasource.getRandom15QuestionsByQuestionLevel(questionLevel)
+    fun retrieveGrammarQuestionsByLevel(questionLevel: String, questionCount: Long): ResponseEntity<Collection<Question>> = datasource.getRandomQuestionsByQuestionLevel(questionLevel, questionCount)
 
-    fun retrieve25QuestionsByLevel(questionLevel: String): ResponseEntity<Collection<Question>> = datasource.getRandom25QuestionsByQuestionLevel(questionLevel)
+    fun retrieveGrammarQuestionsByTopic(questionLevel: String, questionCount: Long): ResponseEntity<Collection<Question>> = datasource.getRandomQuestionsByQuestionTopic(questionLevel, questionCount)
 
-    fun retrieve35QuestionsByLevel(questionLevel: String): ResponseEntity<Collection<Question>> = datasource.getRandom35QuestionsByQuestionLevel(questionLevel)
+    fun retrieveGrammarQuestionsByLevelAndTopic(questionLevel: String, questionTopic: String, questionCount: Long): ResponseEntity<Collection<Question>> = datasource.getRandomQuestionsByQuestionLevelAndTopic(questionLevel, questionTopic, questionCount)
 }

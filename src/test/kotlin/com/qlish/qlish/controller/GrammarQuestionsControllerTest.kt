@@ -22,7 +22,7 @@ internal class GrammarQuestionsControllerTest(@Autowired val mockMvc: MockMvc) {
 
 
     private lateinit var service: GrammarQuestionsService
-    val baseUrl = "/api/questions"
+    val baseUrl = "/api/questions/grammar"
 
     @BeforeEach
     fun setUp() {
@@ -40,7 +40,7 @@ internal class GrammarQuestionsControllerTest(@Autowired val mockMvc: MockMvc) {
         fun `should return all grammar questions for the specified question level and topic`() {
 
 
-            val performGetRequest = mockMvc.get("$baseUrl/grammar")
+            val performGetRequest = mockMvc.get(baseUrl)
 
             performGetRequest.andDo { print() }.andExpect {
                 status { isOk() }
@@ -58,7 +58,7 @@ internal class GrammarQuestionsControllerTest(@Autowired val mockMvc: MockMvc) {
         //given
         val questionClass = "doesNotExist"
         //when //then
-        mockMvc.get("$baseUrl/$questionClass").andDo { print() }
+        mockMvc.get("/api/questions/$questionClass").andDo { print() }
             .andExpect { status { isNotFound() } }
     }
 

@@ -6,9 +6,10 @@ import org.springframework.http.ResponseEntity
 
 interface QuestionsRepository{
     fun getAllQuestions(): ResponseEntity<Collection<Question>>
-    fun getRandom15QuestionsByQuestionLevel(questionLevel:String): ResponseEntity<Collection<Question>>
-    fun getRandom25QuestionsByQuestionLevel(questionLevel:String): ResponseEntity<Collection<Question>>
+    fun getRandomQuestionsByQuestionLevel(questionLevel:String, questionCount: Long): ResponseEntity<Collection<Question>>
 
-    fun getRandom35QuestionsByQuestionLevel(questionLevel:String): ResponseEntity<Collection<Question>>
+    fun getRandomQuestionsByQuestionTopic(questionTopic: String, questionCount: Long): ResponseEntity<Collection<Question>>
+
+    fun getRandomQuestionsByQuestionLevelAndTopic(questionLevel: String, questionTopic: String, questionCount: Long): ResponseEntity<Collection<Question>>
 
 }

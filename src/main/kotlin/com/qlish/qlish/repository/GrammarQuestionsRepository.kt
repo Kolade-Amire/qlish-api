@@ -16,39 +16,60 @@ class GrammarQuestionsRepository(@Autowired private val mongoTemplate: MongoTemp
                 return ResponseEntity.ok(questions)
             }
 
-    override fun getRandom15QuestionsByQuestionLevel(
-        questionLevel: String
+    override fun getRandomQuestionsByQuestionLevel(
+        questionLevel: String,
+        questionCount: Long
     ): ResponseEntity<Collection<Question>> {
-        val aggregation = Aggregation.newAggregation(
-            Aggregation.match(Criteria.where("questionLevel").`is`(questionLevel)),
-            Aggregation.sample(15),
-            Aggregation.limit(15)
-        )
+
+        lateinit var aggregation: Aggregation
+        if (questionCount.toInt() == 15 || questionCount.toInt() == 25 || questionCount.toInt() == 35 || questionCount.toInt() == 50){
+            aggregation = Aggregation.newAggregation(
+                Aggregation.match(Criteria.where("questionLevel").`is`(questionLevel)),
+                Aggregation.sample(questionCount),
+                Aggregation.limit(questionCount)
+            )
+        }else{
+            throw IllegalArgumentException("question count is invalid! accepted parameters are 15, 25, 35 or 50.")
+        }
+        val questions = mongoTemplate.aggregate(aggregation,"grammar", Question::class.java).mappedResults
+        return  ResponseEntity.ok(questions)     }
+
+    override fun getRandomQuestionsByQuestionTopic(
+        questionTopic: String,
+        questionCount: Long
+    ): ResponseEntity<Collection<Question>> {
+        lateinit var aggregation: Aggregation
+        if (questionCount.toInt() == 15 || questionCount.toInt() == 25 || questionCount.toInt() == 35 || questionCount.toInt() == 50){
+            aggregation = Aggregation.newAggregation(
+                Aggregation.match(Criteria.where("questionTopic").`is`(questionTopic)),
+                Aggregation.sample(questionCount),
+                Aggregation.limit(questionCount)
+            )
+        }else{
+            throw IllegalArgumentException("question count is invalid! accepted parameters are 15, 25, 35 or 50.")
+        }
+
         val questions = mongoTemplate.aggregate(aggregation,"grammar", Question::class.java).mappedResults
         return  ResponseEntity.ok(questions)
     }
 
-    override fun getRandom25QuestionsByQuestionLevel(
-        questionLevel: String
+    override fun getRandomQuestionsByQuestionLevelAndTopic(
+        questionLevel: String,
+        questionTopic: String,
+        questionCount: Long
     ): ResponseEntity<Collection<Question>> {
-        val aggregation = Aggregation.newAggregation(
-            Aggregation.match(Criteria.where("questionLevel").`is`(questionLevel)),
-            Aggregation.sample(25),
-            Aggregation.limit(25)
-        )
-        val questions = mongoTemplate.aggregate(aggregation,"grammar", Question::class.java).mappedResults
-        return  ResponseEntity.ok(questions)
-    }
+        lateinit var aggregation: Aggregation
+        if (questionCount.toInt() == 15 || questionCount.toInt() == 25 || questionCount.toInt() == 35 || questionCount.toInt() == 50){
+            aggregation = Aggregation.newAggregation(
+                Aggregation.match(Criteria.where("questionLevel").`is`(questionLevel)),
+                Aggregation.match(Criteria.where("questionTopic").`is`(questionTopic)),
+                Aggregation.sample(questionCount),
+                Aggregation.limit(questionCount)
+            )
+        }else{
+            throw IllegalArgumentException("question count is invalid! accepted parameters are 15, 25, 35 or 50.")
+        }
 
-    override fun getRandom35QuestionsByQuestionLevel(
-        questionLevel: String
-    ): ResponseEntity<Collection<Question>> {
-        val aggregation = Aggregation.newAggregation(
-            Aggregation.match(Criteria.where("questionLevel").`is`(questionLevel)),
-            Aggregation.sample(35),
-            Aggregation.limit(35)
-        )
         val questions = mongoTemplate.aggregate(aggregation,"grammar", Question::class.java).mappedResults
-        return  ResponseEntity.ok(questions)
-    }
+        return  ResponseEntity.ok(questions)    }
 }
