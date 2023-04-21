@@ -7,53 +7,86 @@ import org.assertj.core.api.Assertions
 import org.bson.types.ObjectId
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.http.HttpStatus
 
+@DataMongoTest
 class VocabularyQuestionsRepositoryTest {
 
     private lateinit var questionsRepository: VocabularyQuestionsRepository
+    @Autowired
     private lateinit var mongoTemplate: MongoTemplate
+    private val questions = MockQuestions().questions
 
     @BeforeEach
     fun setUp() {
-        mongoTemplate = mockk<MongoTemplate>()
+        mongoTemplate.insertAll(questions)
         questionsRepository = VocabularyQuestionsRepository(mongoTemplate)
     }
 
     @Test
-    fun `should return a response entity with OK STATUS and response body containing collection of all GRAMMAR questions for given question level and topic `() {
+    fun `should return a response entity with OK STATUS and response body containing collection of all VOCABULARY questions`() {
 
-
-        val questions = listOf(
-            Question(
-                ObjectId(),
-                "If one person is careless with a library book, then it ___ be read by others.",
-                mapOf("A" to "can’t", "B" to "couldn’t", "C" to "may", "D" to "can", "E" to "mightn’t"),
-                "grammar",
-                "advanced",
-                "sentence completion",
-                "A"
-            ),
-            Question(
-                ObjectId(),
-                "I didn’t ___ ring her up for she did it herself.",
-                mapOf("A" to "had to", "B" to "could", "C" to "be to", "D" to "have to", "E" to "must"),
-                "grammar",
-                "advanced",
-                "sentence completion",
-                "D"
-            )
-        )
-
-        every { mongoTemplate.findAll(Question::class.java, "vocabulary") } returns questions
 
         //when
         val responseEntity = questionsRepository.getAllQuestions()
-
         //then
         Assertions.assertThat(responseEntity.statusCode).isEqualTo(HttpStatus.OK)
-        Assertions.assertThat(responseEntity.body).containsAnyElementsOf(questions)
+        Assertions.assertThat(responseEntity.body).allMatch{it.questionClass == "vocabulary"}
     }
+
+    @Test
+    fun `should return random grammar questions by question level`(){
+
+        //given
+        val questionLevel = "advanced"
+        val questionCount = 15
+
+        //when
+        val responseEntity = questionsRepository.getRandomQuestionsByQuestionLevel(questionLevel, questionCount.toLong())
+
+        //then
+        Assertions.assertThat(responseEntity.body).allMatch{it.questionLevel == questionLevel}
+        Assertions.assertThat(responseEntity.body).allMatch{it.questionClass == "vocabulary"}
+        println(responseEntity.body)
+
+
+
+    }
+
+    @Test
+    fun `should return random grammar questions by question topic`(){
+        val questionTopic = "synonyms"
+        val questionCount = 15L
+
+        val responseEntity = questionsRepository.getRandomQuestionsByQuestionTopic(questionTopic,questionCount)
+
+        Assertions.assertThat(responseEntity.body).allMatch{it.questionTopic == questionTopic}
+        Assertions.assertThat(responseEntity.body).allMatch{it.questionClass == "vocabulary"}
+        println(responseEntity.body)
+
+    }
+
+    @Test
+    fun `should return random grammar questions by question level and topic`(){
+
+        //given
+        val questionTopic = "synonyms"
+        val questionCount = 15L
+        val questionLevel = "advanced"
+
+        //when
+        val responseEntity = questionsRepository.getRandomQuestionsByQuestionLevelAndTopic(questionLevel,questionTopic,questionCount)
+
+        //then
+        Assertions.assertThat(responseEntity.body).allMatch{it.questionTopic == questionTopic}
+        Assertions.assertThat(responseEntity.body).allMatch{it.questionClass == "vocabulary"}
+        Assertions.assertThat(responseEntity.body).allMatch{it.questionLevel == questionLevel}
+        println(responseEntity.body)
+    }
+
+
 
 }

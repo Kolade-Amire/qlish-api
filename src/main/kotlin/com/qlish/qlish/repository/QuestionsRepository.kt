@@ -12,4 +12,5 @@ interface QuestionsRepository{
 
     fun getRandomQuestionsByQuestionLevelAndTopic(questionLevel: String, questionTopic: String, questionCount: Long): ResponseEntity<Collection<Question>>
 
+//    fun getRandomQuestionsFromBothClass(questionLevel: String, questionCount:Long): ResponseEntity<Collection<Question>>
 }

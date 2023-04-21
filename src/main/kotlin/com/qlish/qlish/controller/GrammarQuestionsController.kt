@@ -23,7 +23,6 @@ class GrammarQuestionsController(@Autowired private val service: GrammarQuestion
     fun getAllGrammarQuestions(): ResponseEntity<Collection<Question>> = service.retrieveAllGrammarQuestions()
 
 
-
     @GetMapping("/question-level/{questionLevel}/{questionCount}")
     @ResponseStatus(HttpStatus.OK)
     fun getRandomGrammarQuestionsByQuestionLevel(@PathVariable questionLevel:String, @PathVariable questionCount: Long

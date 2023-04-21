@@ -21,12 +21,13 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	implementation ("org.springframework.cloud:spring-cloud-starter-bootstrap:3.0.1")
 	testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
-	compileOnly ("org.jetbrains.kotlin:kotlin-reflect:1.1.51")
+//	compileOnly ("org.jetbrains.kotlin:kotlin-reflect:1.1.51")
 	compileOnly("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.mockk:mockk:1.13.4")
-	testImplementation("com.github.fakemongo:fongo:2.1.0")
+	testImplementation ("org.hamcrest:hamcrest-all:1.3")
 }
 
 tasks.withType<KotlinCompile> {
