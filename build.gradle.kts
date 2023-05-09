@@ -21,6 +21,12 @@ tasks.jar {
 	}
 }
 
+tasks {
+	bootJar {
+		from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+	}
+}
+
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
 	implementation("org.springframework.boot:spring-boot-starter-web")
