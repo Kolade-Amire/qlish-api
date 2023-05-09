@@ -17,7 +17,6 @@ import org.springframework.web.client.RestTemplate
 
 @SpringBootApplication
 @Configuration
-@PropertySource("classpath:application.properties")
 class QlishApplication{
 
 
