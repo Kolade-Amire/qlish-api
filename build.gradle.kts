@@ -15,6 +15,11 @@ repositories {
 	mavenCentral()
 }
 
+tasks.jar {
+	manifest {
+		attributes["Main-Class"] = "com.qlish.qlish.QlishApplication"
+	}
+}
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
