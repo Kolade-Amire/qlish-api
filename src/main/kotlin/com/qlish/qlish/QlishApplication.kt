@@ -21,11 +21,11 @@ class QlishApplication{
 
 
 
-// 	@Value("\${spring.data.mongodb.uri}")
-// 	lateinit var connectionString: String
+	@Value("\${spring.data.mongodb.uri}")
+	lateinit var connectionString: String
 	@Bean
 	fun mongoTemplate(): MongoTemplate {
-		val mongoClient = MongoClients.create(System.getenv("connectionString"))
+		val mongoClient = MongoClients.create(connectionString)
 		val databaseFactory = SimpleMongoClientDatabaseFactory(mongoClient, "Questions")
 		return MongoTemplate(databaseFactory)
 	}
