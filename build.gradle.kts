@@ -26,7 +26,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	implementation ("org.springframework.cloud:spring-cloud-starter-bootstrap:3.0.1")
+// 	implementation ("org.springframework.cloud:spring-cloud-starter-bootstrap:3.0.1")
 	testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
 	compileOnly("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
