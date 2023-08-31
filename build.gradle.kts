@@ -9,8 +9,6 @@ plugins {
 
 group = "com.qlish"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_17
-java.targetCompatibility = JavaVersion.VERSION_17
 
 repositories {
 	mavenCentral()
@@ -28,6 +26,7 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.mockk:mockk:1.13.4")
 	testImplementation ("org.hamcrest:hamcrest-all:1.3")
+	implementation(kotlin("stdlib-jdk8"))
 
 
 }
@@ -43,6 +42,10 @@ tasks.withType<KotlinCompile> {
 
 
 
+
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+kotlin {
+	jvmToolchain(17)
 }
